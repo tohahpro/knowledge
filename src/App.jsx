@@ -13,6 +13,8 @@ function App() {
   // useState use for blog reading time. jehetu ekhane kono array hobe na. ekhane hobe time. tai default time (0) hobe
   const [readingTime, setReadingTime] = useState(0)
 
+  const [remaining, setRemaining] = useState(0)
+
   const handleAddToBookmark = (blog) => {
     const isExist = bookmarks.find(item => item.id == blog.id)
     if (isExist) {
@@ -21,24 +23,23 @@ function App() {
       const newBookmarks = [...bookmarks, blog]
       setBookmarks(newBookmarks)
     }
-    // console.log(blog);
-    // const newBookmarks = [...bookmarks, blog]
-    // setBookmarks(newBookmarks)
-
   }
-
 
   // click function for time 
   const handleMarkAsRead = (time, id) => {
-    // console.log('reading time', time);
-    setReadingTime(readingTime + time)
+    const totalReadingTime = readingTime + time
+    const remainingTime = 30 - totalReadingTime
+    console.log(remainingTime);
+    if (remainingTime < 0) {
+      return alert('Your time is up')
 
-    // remove the read blog from the bookmark 
+    } else {
+      setReadingTime(totalReadingTime);
+      setRemaining(remainingTime);
+      const remainingBookmarks = bookmarks.filter(bookmark => bookmark.id !== id)
+      setBookmarks(remainingBookmarks);
+    }
 
-    // je id r blog e click kora hobe sei ta bade baki id gulo bookmarks e thakbe. tar jonno filter kore click kora blog er id sate jegulor id milbe na segulo bookmarkse set thakbe. 
-
-    const remainingBookmarks = bookmarks.filter(bookmark => bookmark.id !== id)
-    setBookmarks(remainingBookmarks);
   }
 
   return (
@@ -50,8 +51,6 @@ function App() {
 
         <Bookmarks bookmarks={bookmarks} readingTime={readingTime}></Bookmarks>
       </div>
-
-
     </>
   )
 }
