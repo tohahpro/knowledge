@@ -21,10 +21,16 @@ function App() {
 
 
   // click function for time 
-  const handleMarkAsRead = (time) => {
+  const handleMarkAsRead = (time, id) => {
     // console.log('reading time', time);
     setReadingTime(readingTime + time)
 
+    // remove the read blog from the bookmark 
+
+    // je id r blog e click kora hobe sei ta bade baki id gulo bookmarks e thakbe. tar jonno filter kore click kora blog er id sate jegulor id milbe na segulo bookmarkse set thakbe. 
+
+    const remainingBookmarks = bookmarks.filter(bookmark => bookmark.id !== id)
+    setBookmarks(remainingBookmarks);
   }
 
   return (
